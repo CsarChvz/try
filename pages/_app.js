@@ -2,7 +2,8 @@ import { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import { AppProps } from "next/app";
 import { getCookie, setCookie } from "cookies-next";
-
+import { UserProvider } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import Head from "next/head";
 import {
   MantineProvider,
@@ -34,21 +35,22 @@ export default function App(props) {
         />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
-
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
-        <MantineProvider
-          theme={{ colorScheme }}
-          withGlobalStyles
-          withNormalizeCSS
+      <UserProvider supabaseClient={supabaseClient}>
+        <ColorSchemeProvider
+          colorScheme={colorScheme}
+          toggleColorScheme={toggleColorScheme}
         >
-          <NotificationsProvider>
-            <Component {...pageProps} />
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+          <MantineProvider
+            theme={{ colorScheme }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <NotificationsProvider>
+              <Component {...pageProps} />
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </UserProvider>
     </>
   );
 }
