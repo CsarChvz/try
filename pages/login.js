@@ -2,6 +2,7 @@ import { Auth } from "@supabase/ui";
 import { useUser } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 const LoginPage = () => {
   const { user, error } = useUser();
@@ -38,5 +39,6 @@ const LoginPage = () => {
     </>
   );
 };
+export const getServerSideProps = withPageAuth({ redirectTo: "/profile" });
 
 export default LoginPage;
